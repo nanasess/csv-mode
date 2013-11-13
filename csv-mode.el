@@ -978,7 +978,7 @@ The fields yanked are those last killed by `csv-kill-fields'."
                 x)
             (while (not (eolp))
               (csv-end-of-field)
-              (setq x (- (point) beg))    ; Field width.
+              (setq x (string-width (buffer-substring beg (point)))) ; Field width.
               (if w
                   (if (> x (car w)) (setcar w x))
                 (setq w (list x)
@@ -1032,7 +1032,7 @@ If there is no selected region, default to the whole buffer."
                        (left-padding 0) (right-padding 0)
                        (field-width
                         ;; FIXME: Don't assume length=string-width!
-                        (progn (csv-end-of-field) (- (point) beg)))
+                        (progn (csv-end-of-field) (string-width (buffer-substring beg (point)))))
                        (column-width (pop w))
                        (x (- column-width field-width))) ; Required padding.
                   (set-marker end (point)) ; End of current field.
